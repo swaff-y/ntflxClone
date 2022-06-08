@@ -1,5 +1,6 @@
 import React from 'react';
 import Navbar from '../components/navbar/Navbar';
+import Featured from '../featured/Featured';
 import "./home.scss";
 
 const Home = (props) => {
@@ -9,7 +10,7 @@ const Home = (props) => {
       data-test="component-home"
     >
       <Navbar />
-      <img src="https://images.pexels.com/photos/1149137/pexels-photo-1149137.jpeg"/>
+      <Featured />
     </div>
    )
  }
