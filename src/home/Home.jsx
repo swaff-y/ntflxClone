@@ -10,7 +10,7 @@ const Home = (props) => {
       data-test="component-home"
     >
       <Navbar />
-      <Featured />
+      <Featured type="movie"/>
     </div>
    )
  }
