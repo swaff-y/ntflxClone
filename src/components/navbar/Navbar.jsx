@@ -10,8 +10,6 @@ const Navbar = (props) => {
     return () => window.onscroll = null;
   }
 
-  console.log(`%c${isScrolled}`, "color: orange;");
-
    return(
     <div
       className={isScrolled ? "navbar scrolled" : "navbar"}

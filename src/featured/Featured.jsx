@@ -22,8 +22,8 @@ const Featured = ({type}) => {
                 "Series"
               }
             </span>
-            <select name="genre" id="genre">
-              <option disabled selected>Genre</option>
+            <select name="genre" id="genre" defaultValue={"Genre"}>
+              <option disabled>Genre</option>
               <option value="adventure">Adventure</option>
               <option value="comedy">Comedy</option>
               <option value="crime">Crime</option>
