@@ -12,7 +12,7 @@ const Watch = (props) => {
         <ArrowBackOutlined />
         Home
       </div>
-      <video className="video" autoPlay progress controls src="https://www.dofactory.com/media/movie.mp4"/>
+      <video className="video" autoPlay progress="" controls src="https://www.dofactory.com/media/movie.mp4"/>
     </div>
    )
  }
