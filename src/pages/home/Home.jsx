@@ -1,7 +1,7 @@
-import List from '../components/list/List';
+import List from '../../components/list/List';
 import React from 'react';
-import Navbar from '../components/navbar/Navbar';
-import Featured from '../featured/Featured';
+import Navbar from '../../components/navbar/Navbar';
+import Featured from '../../featured/Featured';
 import "./home.scss";
 
 const Home = (props) => {
