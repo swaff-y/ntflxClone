@@ -1,10 +1,16 @@
 import { Add, PlayArrow, ThumbDownAltOutlined, ThumbUpAltOutlined } from '@material-ui/icons';
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import "./listItem.scss";
 
-const ListItem = ({ index }) => {
+const ListItem = ({ index, url }) => {
   const [ isHovered, setIsHovered ] = useState(false);
-  const trailer = "https://www.dofactory.com/media/movie.mp4";
+  const trailer = url ? url : "https://www.dofactory.com/media/movie.mp4";
+  let navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/watch/new", {replace: true});
+  }
 
    return(
     <div
@@ -27,7 +33,7 @@ const ListItem = ({ index }) => {
               <video src={trailer} autoPlay={true} loop/>
               <div className="infoItem">
                 <div className="icons">
-                  <PlayArrow className='icon' />
+                  <PlayArrow className='icon' onClick={handleClick}/>
                   <Add className='icon' />
                   <ThumbUpAltOutlined className='icon' />
                   <ThumbDownAltOutlined className='icon' />
