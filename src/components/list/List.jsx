@@ -38,7 +38,6 @@ const List = (props) => {
       listRef.current.style.transform = `translateX(${-230 + distance}px)`;
       setClick(click+1);
     }
-    // console.log(`%cThe Click`, "color:orange; font-size: 20px;", click, len);
   }
 
    return(
