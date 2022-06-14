@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import ListItem from '../listitem/ListItem';
 import "./list.scss";
 
-const List = (props) => {
+const List = ({ data }) => {
   const [isMovedLeft, setIsMovedLeft] = useState(false);
   const [isMovedRight, setIsMovedRight] = useState(true);
   const [click, setClick] = useState(0);
@@ -45,7 +45,7 @@ const List = (props) => {
       className="list"
       data-test="component-list"
     >
-      <span className="listTitle">Continue watching</span>
+      <span className="listTitle">{ data.name }</span>
       <div className="wrapper">
         <ArrowBackIosOutlined 
           className="sliderArrow left" 
