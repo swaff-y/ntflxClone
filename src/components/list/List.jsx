@@ -1,9 +1,10 @@
 import { ArrowBackIosOutlined, ArrowForwardIosOutlined } from '@material-ui/icons';
 import React, { useEffect, useRef, useState } from 'react';
+import { splitCamelCase } from '../../helperFunctions';
 import ListItem from '../listitem/ListItem';
 import "./list.scss";
 
-const List = ({ data }) => {
+const List = ({ name, data }) => {
   const [isMovedLeft, setIsMovedLeft] = useState(false);
   const [isMovedRight, setIsMovedRight] = useState(true);
   const [click, setClick] = useState(0);
@@ -40,12 +41,14 @@ const List = ({ data }) => {
     }
   }
 
+  console.log(`%cStars`,"color:orange;font-size:20px;", data);
+
    return(
     <div
       className="list"
       data-test="component-list"
     >
-      <span className="listTitle">{ data.name }</span>
+      <span className="listTitle">{ splitCamelCase(name) }</span>
       <div className="wrapper">
         <ArrowBackIosOutlined 
           className="sliderArrow left" 
@@ -57,20 +60,9 @@ const List = ({ data }) => {
           }
         />
           <div className="container" ref={listRef}>
-            <ListItem index={0} />
-            <ListItem index={1} />
-            <ListItem index={2}/>
-            <ListItem index={3}/>
-            <ListItem index={4}/>
-            <ListItem index={5}/>
-            <ListItem index={6}/>
-            <ListItem index={7}/>
-            <ListItem index={8}/>
-            <ListItem index={9}/>
-            <ListItem index={10}/>
-            <ListItem index={11}/>
-            <ListItem index={12}/>
-            <ListItem index={13}/>
+            {
+              data.map((item,index)=><ListItem key={index} index={index} data={item} url={item.url} />)
+            }
           </div>
         <ArrowForwardIosOutlined 
           className="sliderArrow right" 

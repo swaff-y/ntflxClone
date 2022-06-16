@@ -10,7 +10,7 @@ export const getStars = async (dispatch) => {
     try {
         const res = await request.get("/config/stars");
         dispatch(getStarsSuccess(res.data));
-        console.log("%cSuccess","color:green;font-size:24px;",res)
+        console.log("%cSuccess","color:green;font-size:24px;",res.data)
     } catch (err) {
         dispatch(starsFailure());
         console.log("%cERROR","color:red;font-size:24px;",err)

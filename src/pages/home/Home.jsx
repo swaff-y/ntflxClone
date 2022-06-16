@@ -5,7 +5,7 @@ import Featured from '../../featured/Featured';
 import "./home.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { getStars } from '../../redux/apiCall';
-import { uniqueArray, randomArray } from '../../helperFunctions';
+import { uniqueArray, randomArray, getObjs } from '../../helperFunctions';
 
 
 const Home = (props) => {
@@ -23,9 +23,6 @@ const Home = (props) => {
     setDisp(randomArr);
   },[stars])
 
-
-  console.log(`%cStars`,"color:orange;font-size:20px;", disp);
-
   return(
     <div
       className="home__container"
@@ -34,7 +31,7 @@ const Home = (props) => {
       <Navbar />
       <Featured type="movie"/>
       {
-        disp?.map((item,index)=><List key={index} data={item} />)
+        disp?.map((item,index)=><List key={index} name={item} data={getObjs(stars,item)} />)
       }
     </div>
    )

@@ -3,14 +3,18 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import "./listItem.scss";
 
-const ListItem = ({ index, url }) => {
+const BUCKET_URL = process.env.REACT_APP_BUCKET_URL;
+
+const ListItem = ({ index, data, url }) => {
   const [ isHovered, setIsHovered ] = useState(false);
-  const trailer = url ? url : "https://www.dofactory.com/media/movie.mp4";
+  const trailer = url ? BUCKET_URL + url : "https://www.dofactory.com/media/movie.mp4";
   let navigate = useNavigate();
 
-  const handleClick = () => {
-    navigate("/watch/new", {replace: true});
+  const handleClick = (url) => {
+    navigate("/watch/new", {replace: true, state: { url } });
   }
+
+  console.log(`%cThe BUCKET`,"color:lightblue;font-size:20px",trailer);
 
    return(
     <div
@@ -23,17 +27,17 @@ const ListItem = ({ index, url }) => {
         zIndex: isHovered ? 10 : 1
       }}
     >
-        <img src="https://images.pexels.com/photos/593172/pexels-photo-593172.jpeg" alt="" />
+        <video className="sample" src={trailer+"#t=30"} autoPlay={false} />
        
         { 
           isHovered 
           && 
           (
             <>
-              <video src={trailer} autoPlay={true} loop/>
+              <video className="smallPlay" src={trailer} autoPlay={true} loop/>
               <div className="infoItem">
                 <div className="icons">
-                  <PlayArrow className='icon' onClick={handleClick}/>
+                  <PlayArrow className='icon' onClick={()=>handleClick(url)}/>
                   <Add className='icon' />
                   <ThumbUpAltOutlined className='icon' />
                   <ThumbDownAltOutlined className='icon' />

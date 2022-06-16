@@ -19,7 +19,7 @@ export const randomArray = (arr, length) => {
             i++;
         } else {
             const obj = arr[int];
-            if(!retArr?.find((item)=>{ return item.name == obj.name })){
+            if(!retArr?.find((item)=>{ return item == obj })){
                 retArr?.push(obj);
                 i++;
             }
@@ -33,10 +33,22 @@ export const uniqueArray = (arr) => {
 
     arr.forEach((item)=>{
         if(!retArr.find((it)=>{
-            return it.name === item.name
+            return it === item.name
         })){
-            retArr.push(item);
+            retArr.push(item.name);
         }
     });
     return retArr;
+}
+
+export const getObjs = (arr, name) => {
+    return arr.filter((item)=>{
+        return item.name === name;
+    })
+}
+
+export const splitCamelCase = (str) => {
+    if(typeof str !== "string") return;
+    let string = str.replace(/([a-z])([A-Z])/g, '$1 $2');
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
