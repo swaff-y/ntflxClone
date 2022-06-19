@@ -4,24 +4,36 @@ import Navbar from '../../components/navbar/Navbar';
 import Featured from '../../featured/Featured';
 import "./home.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { getStars } from '../../redux/apiCall';
+import { getStars, getDisplay } from '../../redux/apiCall';
 import { uniqueArray, randomArray, getObjs } from '../../helperFunctions';
 
 
 const Home = (props) => {
   const dispatch = useDispatch();
-  const stars = useSelector(state=>state.stars.collection);
+  // const stars = useSelector(state=>state.stars.collection);
+  const display = useSelector(state=>state.display.collection);
   const [ disp, setDisp ] = useState([]);
 
+  //Make the api call
   useEffect(()=>{
-    getStars(dispatch)
+    getDisplay(dispatch)
   },[dispatch])
+  // useEffect(()=>{
+  //   getStars(dispatch)
+  // },[dispatch])
 
+  //Create the unique array
+  // useEffect(()=>{
+  //   const uniqueArr = uniqueArray(stars || []);
+  //   const randomArr = randomArray(uniqueArr, 10);
+  //   setDisp(randomArr);
+  // },[stars])
   useEffect(()=>{
-    const uniqueArr = uniqueArray(stars || []);
-    const randomArr = randomArray(uniqueArr, 10);
-    setDisp(randomArr);
-  },[stars])
+    console.log(display);
+    const uniqueArr = uniqueArray(display || []);
+    const randomArr = randomArray(uniqueArr, 8);
+    setDisp(randomArr?.sort());
+  },[display])
 
   return(
     <div
@@ -31,7 +43,7 @@ const Home = (props) => {
       <Navbar />
       <Featured type="movie"/>
       {
-        disp?.map((item,index)=><List key={index} name={item} data={getObjs(stars,item)} />)
+        disp?.map((item,index)=><List key={index} name={item} data={getObjs(display,item)} />)
       }
     </div>
    )

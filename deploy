@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "Deploying app...."
+$(echo `npm run build`)
+$(echo `touch ~/sei/projects/ntflx/ntflxclone/build/info.txt`)
+$(echo `date` >> ~/sei/projects/ntflx/ntflxclone/build/info.txt)
+$(echo `rsync --rsync-path="sudo rsync" -r ~/sei/projects/ntflx/ntflxclone/build/* swaff@raspberrypi:/var/www/html`)
+echo "App deployed"

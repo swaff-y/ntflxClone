@@ -13,7 +13,7 @@ const Watch = (props) => {
     navigate("/", {replace: true});
   }
 
-  console.log(`%cThe BUCKET`,"color:yellow;font-size:20px",BUCKET_URL + url);
+  // console.log(`%cThe BUCKET`,"color:yellow;font-size:20px",BUCKET_URL + url);
 
    return(
     <div

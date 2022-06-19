@@ -7,14 +7,14 @@ const BUCKET_URL = process.env.REACT_APP_BUCKET_URL;
 
 const ListItem = ({ index, data, url }) => {
   const [ isHovered, setIsHovered ] = useState(false);
-  const trailer = url ? BUCKET_URL + url : "https://www.dofactory.com/media/movie.mp4";
+  const trailer = BUCKET_URL + url;
   let navigate = useNavigate();
 
   const handleClick = (url) => {
     navigate("/watch/new", {replace: true, state: { url } });
   }
 
-  console.log(`%cThe BUCKET`,"color:lightblue;font-size:20px",trailer);
+  // console.log(`%cThe BUCKET`,"color:lightblue;font-size:20px",trailer);
 
    return(
     <div

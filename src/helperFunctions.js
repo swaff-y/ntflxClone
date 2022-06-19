@@ -19,7 +19,7 @@ export const randomArray = (arr, length) => {
             i++;
         } else {
             const obj = arr[int];
-            if(!retArr?.find((item)=>{ return item == obj })){
+            if(!retArr?.find((item)=>{ return item == obj })) {
                 retArr?.push(obj);
                 i++;
             }
@@ -32,9 +32,7 @@ export const uniqueArray = (arr) => {
     const retArr = [];
 
     arr.forEach((item)=>{
-        if(!retArr.find((it)=>{
-            return it === item.name
-        })){
+        if(!retArr.find((it)=>{ return it === item.name })) {
             retArr.push(item.name);
         }
     });
@@ -51,4 +49,19 @@ export const splitCamelCase = (str) => {
     if(typeof str !== "string") return;
     let string = str.replace(/([a-z])([A-Z])/g, '$1 $2');
     return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+export const sortArray = (arr) => {
+
+    function compare( a, b ) {
+        if ( a.name < b.name ){
+          return -1;
+        }
+        if ( a.name > b.name ){
+          return 1;
+        }
+        return 0;
+    }
+
+    return arr.sort(compare);
 }
