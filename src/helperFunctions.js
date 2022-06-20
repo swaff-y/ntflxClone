@@ -2,6 +2,8 @@ import { putObj } from "./redux/apiCall";
 
 const BUCKET_URL = process.env.REACT_APP_BUCKET_URL;
 
+const featured = null;
+
 function getVideoImage(path, secs, callback) {
     var me = this, video = document.createElement('video');
     video.onloadedmetadata = function() {
@@ -57,16 +59,15 @@ function showImageAt(url, id, count) {
     );
 };
 
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+  }
 
 export const randomArray = (arr, length) => {
 
     if(arr.length === 0) return;
-
-    function getRandomInt(min, max) {
-      min = Math.ceil(min);
-      max = Math.floor(max);
-      return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
-    }
 
     const retArr = [];
     let i = 0;
@@ -140,3 +141,13 @@ export const checkForImages = (obj) => {
         showImageAt(BUCKET_URL + obj.url, obj._id, 3);
     }
 };
+
+export const getFeatured = (arr) => {
+    let index = getRandomInt(0,arr?.length);
+    if(arr?.[index]?.two && !featured)
+        return arr[index];
+    else if( featured )
+        return featured;
+    // else
+        // getFeatured(arr);
+}

@@ -1,8 +1,17 @@
 import { InfoOutlined, PlayArrow } from '@material-ui/icons';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { getFeatured, splitCamelCase } from '../helperFunctions';
 import "./featured.scss";
 
 const Featured = ({type}) => {
+  const display = useSelector(state=>state.display.collection);
+  const [ featured, setFeatured ] = useState({});
+
+  useEffect(()=>{
+    setFeatured(getFeatured(display));
+  },[display])
+
    return(
     <div
       className="featured"
@@ -32,9 +41,13 @@ const Featured = ({type}) => {
         )
 
       }
-      <img src="https://images.pexels.com/photos/1149137/pexels-photo-1149137.jpeg" />
+      <img src={featured?.two} />
       <div className="info">
-        <img src="https://www.logolynx.com/images/logolynx/81/813a51d58c8e1ad76529f777e94f295a.png" />
+
+        <div className="wrapper">
+	        <h1>{splitCamelCase(featured?.name)}</h1>
+        </div>
+
         <span className='desc'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Delectus reiciendis aut eaque, numquam corrupti obcaecati ipsa blanditiis asperiores veniam facilis pariatur rerum est. Explicabo distinctio voluptatum, facere saepe sed incidunt.</span>
       
         <div className="buttons">
