@@ -5,7 +5,7 @@ import Featured from '../../featured/Featured';
 import "./home.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { getStars, getDisplay } from '../../redux/apiCall';
-import { uniqueArray, randomArray, getObjs } from '../../helperFunctions';
+import { uniqueArray, randomArray, getObjs, checkForImages } from '../../helperFunctions';
 
 
 const Home = (props) => {
@@ -18,18 +18,13 @@ const Home = (props) => {
   useEffect(()=>{
     getDisplay(dispatch)
   },[dispatch])
-  // useEffect(()=>{
-  //   getStars(dispatch)
-  // },[dispatch])
 
-  //Create the unique array
-  // useEffect(()=>{
-  //   const uniqueArr = uniqueArray(stars || []);
-  //   const randomArr = randomArray(uniqueArr, 10);
-  //   setDisp(randomArr);
-  // },[stars])
   useEffect(()=>{
-    console.log(display);
+
+    display.forEach((item,index)=>{
+        checkForImages(item);
+    });
+
     const uniqueArr = uniqueArray(display || []);
     const randomArr = randomArray(uniqueArr, 8);
     setDisp(randomArr?.sort());

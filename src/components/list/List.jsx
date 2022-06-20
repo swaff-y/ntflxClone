@@ -41,7 +41,7 @@ const List = ({ name, data }) => {
     }
   }
 
-  console.log(`%cStars`,"color:orange;font-size:20px;", data);
+  // console.log(`%cStars`,"color:orange;font-size:20px;", data);
 
    return(
     <div

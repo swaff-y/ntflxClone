@@ -10,8 +10,8 @@ const ListItem = ({ index, data, url }) => {
   const trailer = BUCKET_URL + url;
   let navigate = useNavigate();
 
-  const handleClick = (url) => {
-    navigate("/watch/new", {replace: true, state: { url } });
+  const handleClick = (data) => {
+    navigate(`/watch/${data._id}`, {replace: true, state: { url } });
   }
 
   // console.log(`%cThe BUCKET`,"color:lightblue;font-size:20px",trailer);
@@ -27,8 +27,14 @@ const ListItem = ({ index, data, url }) => {
         zIndex: isHovered ? 10 : 1
       }}
     >
+      {
+        data.two
+        ?
+        <img className="sample" src={data.two} alt="" />
+        :
         <video className="sample" src={trailer+"#t=30"} autoPlay={false} />
-       
+      }
+        
         { 
           isHovered 
           && 
@@ -37,7 +43,7 @@ const ListItem = ({ index, data, url }) => {
               <video className="smallPlay" src={trailer} autoPlay={true} loop/>
               <div className="infoItem">
                 <div className="icons">
-                  <PlayArrow className='icon' onClick={()=>handleClick(url)}/>
+                  <PlayArrow className='icon' onClick={()=>handleClick(data)}/>
                   <Add className='icon' />
                   <ThumbUpAltOutlined className='icon' />
                   <ThumbDownAltOutlined className='icon' />
