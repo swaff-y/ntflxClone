@@ -85,6 +85,10 @@ $avatar-size: 32px;
 
         .desc{
             margin: 20px 0;
+            max-height: 250px;
+            white-space: wrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .buttons{

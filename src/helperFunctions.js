@@ -1,4 +1,4 @@
-import { putObj } from "./redux/apiCall";
+import { getBio, putObj } from "./redux/apiCall";
 
 const BUCKET_URL = process.env.REACT_APP_BUCKET_URL;
 
@@ -150,4 +150,34 @@ export const getFeatured = (arr) => {
         return featured;
     // else
         // getFeatured(arr);
+}
+
+export const getBioFromHTML = (html) => {
+    const doc = document.createElement("div");
+
+    doc.innerHTML = html;
+    const theNode = doc.querySelector(".js-bioText");
+    if(theNode)
+        return theNode.innerHTML.trim();
+    else
+        return "";
+}
+
+export const checkDescription = (name, obj, callback) => {
+    if(!name && !obj) return;
+    const newName = splitCamelCase(name)?.toLowerCase()?.split(" ")?.join("-") || "";
+
+    if(!obj.bio){
+        let res = getBio(newName)
+        .then((res)=>{
+            let bio = getBioFromHTML(res);
+            if(!bio) bio = "-";
+            callback( bio );
+            putObj(obj._id, { bio })
+        }, failure=>{
+            console.log(`%cERROR`,"color:red;font-size:20px",failure);
+        })
+    } else {
+        callback(obj.bio);
+    }
 }

@@ -1,4 +1,4 @@
-import { request } from "../requestMethods";
+import { request, bio } from "../requestMethods";
 import { 
     starsFailure,
     starsStart,
@@ -10,6 +10,7 @@ import {
     getDisplaySuccess
 } from "./displayReducer";
 import { getWatchSuccess, watchFailure, watchStart } from "./watchReducer";
+import { getBioFromHTML, splitCamelCase } from "../helperFunctions";
 
 export const getDisplay = async (dispatch) => {
     dispatch(displayStart());
@@ -51,6 +52,16 @@ export const getObj = async (dispatch, id) => {
     } catch (err) {
         dispatch(watchFailure());
         console.log("%cGot video ERROR","color:red;font-size:24px;",err)
+    }
+}
+export const getBio = async (name) => {
+    try {
+        const res = await bio.get("/" + name);
+        // console.log("%cGot bio Success","color:green;font-size:12px;",res.data);
+        return res.data;
+    } catch (err) {
+        console.log("%cGot bio ERROR","color:red;font-size:24px;",err);
+        return false;
     }
 }
 

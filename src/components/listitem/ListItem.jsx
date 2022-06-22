@@ -1,12 +1,15 @@
 import { Add, PlayArrow, ThumbDownAltOutlined, ThumbUpAltOutlined } from '@material-ui/icons';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import { getBio } from '../../redux/apiCall';
+import { checkDescription, getBioFromHTML } from '../../helperFunctions';
 import "./listItem.scss";
 
 const BUCKET_URL = process.env.REACT_APP_BUCKET_URL;
 
 const ListItem = ({ index, data, url }) => {
   const [ isHovered, setIsHovered ] = useState(false);
+  const [ desc, setDesc ] = useState("");
   const trailer = BUCKET_URL + url;
   let navigate = useNavigate();
 
@@ -14,7 +17,14 @@ const ListItem = ({ index, data, url }) => {
     navigate(`/watch/${data._id}`, {replace: true, state: { url } });
   }
 
-  // console.log(`%cThe BUCKET`,"color:lightblue;font-size:20px",trailer);
+  console.log(`%cThe DESCRIPTION`,"color:lightblue;font-size:20px",desc);
+
+  useEffect(()=>{
+    function gotRes(res){
+      setDesc(res);
+    }
+    let res = checkDescription(data?.name, data, gotRes);
+  },[data?.name])
 
    return(
     <div
@@ -54,7 +64,7 @@ const ListItem = ({ index, data, url }) => {
                   <span>1999</span>
                 </div>
                 <div className="desc">
-                  Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                  { desc }
                 </div>
                 <div className="genre">
                   Action

@@ -48,7 +48,7 @@ const Featured = ({type}) => {
 	        <h1>{splitCamelCase(featured?.name)}</h1>
         </div>
 
-        <span className='desc'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Delectus reiciendis aut eaque, numquam corrupti obcaecati ipsa blanditiis asperiores veniam facilis pariatur rerum est. Explicabo distinctio voluptatum, facere saepe sed incidunt.</span>
+        <span className='desc'>{ featured?.bio }</span>
       
         <div className="buttons">
           <button className="play">
