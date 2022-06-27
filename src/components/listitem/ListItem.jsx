@@ -1,15 +1,17 @@
 import { Add, PlayArrow, ThumbDownAltOutlined, ThumbUpAltOutlined } from '@material-ui/icons';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { getBio } from '../../redux/apiCall';
-import { checkDescription, getBioFromHTML } from '../../helperFunctions';
+import { checkDescription } from '../../helperFunctions';
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 import "./listItem.scss";
 
 const BUCKET_URL = process.env.REACT_APP_BUCKET_URL;
 
 const ListItem = ({ index, data, url }) => {
   const [ isHovered, setIsHovered ] = useState(false);
+  const [ isClicked, setIsClicked ] = useState("none");
   const [ desc, setDesc ] = useState("");
+  const { width } = useWindowDimensions();
   const trailer = BUCKET_URL + url;
   let navigate = useNavigate();
 
@@ -17,21 +19,32 @@ const ListItem = ({ index, data, url }) => {
     navigate(`/watch/${data._id}`, {replace: true, state: { url } });
   }
 
-  console.log(`%cThe DESCRIPTION`,"color:lightblue;font-size:20px",desc);
-
   useEffect(()=>{
     function gotRes(res){
       setDesc(res);
     }
     let res = checkDescription(data?.name, data, gotRes);
-  },[data?.name])
+  },[data?.name]);
+
+  const handleMouseEnter = () => {
+    if(width > 821){
+      setIsHovered(true);
+    }
+  }
+  const handleClickBlock = (e) => {
+    if(width < 821){
+      handleClick(data)
+      setIsClicked("");
+    }
+  }
 
    return(
     <div
       className="listItem"
       data-test="component-listItem"
-      onMouseEnter={()=>setIsHovered(true)}
+      onMouseEnter={handleMouseEnter}
       onMouseLeave={()=>setIsHovered(false)}
+      onClick={handleClickBlock}
       style={{
         left: isHovered && (((index * 225) - 50) + (index * 2.5)),
         zIndex: isHovered ? 10 : 1
@@ -40,7 +53,7 @@ const ListItem = ({ index, data, url }) => {
       {
         data.two
         ?
-        <img className="sample" src={data.two} alt="" />
+        <img className="sample" src={ data.two } alt="" />
         :
         <video className="sample" src={trailer+"#t=30"} autoPlay={false} />
       }
@@ -73,8 +86,25 @@ const ListItem = ({ index, data, url }) => {
           </>
           )
         }
+
+          <div 
+            className='bottomSlider' 
+            style={{
+              display: isClicked
+            }}>
+            Hello
+          </div>
     </div>
    )
  }
 
 export default ListItem
+
+// className="listItem"
+// data-test="component-listItem"
+// onMouseEnter={()=>setIsHovered(true)}
+// onMouseLeave={()=>setIsHovered(false)}
+// style={{
+//   left: isHovered && (((index * 225) - 50) + (index * 2.5)),
+//   zIndex: isHovered ? 10 : 1
+// }}
