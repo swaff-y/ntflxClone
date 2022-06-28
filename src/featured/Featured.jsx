@@ -2,15 +2,24 @@ import { InfoOutlined, PlayArrow } from '@material-ui/icons';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getFeatured, splitCamelCase } from '../helperFunctions';
+import { useNavigate } from "react-router-dom";
 import "./featured.scss";
 
 const Featured = ({type}) => {
   const display = useSelector(state=>state.display.collection);
   const [ featured, setFeatured ] = useState({});
+  let navigate = useNavigate();
 
   useEffect(()=>{
     setFeatured(getFeatured(display));
   },[display])
+
+  const handlePlayClick = (e) => {
+    navigate(`/watch/${featured._id}`, {replace: true, state: { url: featured.url } });
+  }
+  const handleInfoClick = (e) => {
+    navigate(`/info/${featured._id}`, {replace: true, state: { url: featured.url } });
+  }
 
    return(
     <div
@@ -53,11 +62,11 @@ const Featured = ({type}) => {
         <div className="buttons">
           <button className="play">
             <PlayArrow />
-            <span>Play</span>
+            <span onClick={handlePlayClick}>Play</span>
           </button>
           <button className="more">
             <InfoOutlined />
-            <span>Info</span>
+            <span onClick={handleInfoClick}>Info</span>
           </button>
         </div>
       </div>

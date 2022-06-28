@@ -86,14 +86,6 @@ const ListItem = ({ index, data, url }) => {
           </>
           )
         }
-
-          <div 
-            className='bottomSlider' 
-            style={{
-              display: isClicked
-            }}>
-            Hello
-          </div>
     </div>
    )
  }
