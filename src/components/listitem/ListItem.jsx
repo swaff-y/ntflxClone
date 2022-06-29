@@ -1,5 +1,5 @@
 import { Add, PlayArrow, ThumbDownAltOutlined, ThumbUpAltOutlined } from '@material-ui/icons';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { checkDescription } from '../../helperFunctions';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
@@ -9,11 +9,12 @@ const BUCKET_URL = process.env.REACT_APP_BUCKET_URL;
 
 const ListItem = ({ index, data, url }) => {
   const [ isHovered, setIsHovered ] = useState(false);
-  const [ isClicked, setIsClicked ] = useState("none");
+  const [ setIsClicked ] = useState("none");
   const [ desc, setDesc ] = useState("");
   const { width } = useWindowDimensions();
   const trailer = BUCKET_URL + url;
   let navigate = useNavigate();
+  const videoEl = useRef(null);
 
   const handleClick = (data) => {
     navigate(`/watch/${data._id}`, {replace: true, state: { url } });
@@ -27,13 +28,13 @@ const ListItem = ({ index, data, url }) => {
   },[data?.name]);
 
   const handleMouseEnter = () => {
-    if(width > 821){
+    if(width > 1180){
       setIsHovered(true);
     }
   }
   const handleClickBlock = (e) => {
-    if(width < 821){
-      handleClick(data)
+    if(width <= 1180){
+      navigate(`/info/${data._id}`, { replace: true });
       setIsClicked("");
     }
   }
@@ -55,7 +56,7 @@ const ListItem = ({ index, data, url }) => {
         ?
         <img className="sample" src={ data.two } alt="" />
         :
-        <video className="sample" src={trailer+"#t=30"} autoPlay={false} />
+        <video ref={videoEl} className="sample" src={trailer+"#t=30"} autoPlay={false} />
       }
         
         { 
@@ -63,7 +64,7 @@ const ListItem = ({ index, data, url }) => {
           && 
           (
             <>
-              <video className="smallPlay" src={trailer} autoPlay={true} loop/>
+              <video ref={videoEl} className="smallPlay" src={trailer} autoPlay={true} loop/>
               <div className="infoItem">
                 <div className="icons">
                   <PlayArrow className='icon' onClick={()=>handleClick(data)}/>
@@ -72,7 +73,7 @@ const ListItem = ({ index, data, url }) => {
                   <ThumbDownAltOutlined className='icon' />
                 </div>
                 <div className="itemInfoTop">
-                  <span>1 hour 14 min</span>
+                  <span>{ Math.floor(videoEl?.current?.duration || 0) } sec</span>
                   <span className='limit'>+16</span>
                   <span>1999</span>
                 </div>

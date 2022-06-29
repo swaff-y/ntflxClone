@@ -18,7 +18,7 @@
         padding: 0 50px;
         height: 70px;
 
-
+        
         .left{
             display: flex;
             align-items: center;
@@ -26,10 +26,18 @@
                 height: 25px;
                 margin-right: 40px;
             }
-            span{
-                margin-right: 20px;
-                cursor: pointer;
+            @media only screen and (min-width: 860px){
+                span{
+                    margin-right: 20px;
+                    cursor: pointer;
+                }
             }
+            @media only screen and (max-width: 860px){
+                span{
+                    display: none;
+                }
+            }
+            
         }
 
         .right{
