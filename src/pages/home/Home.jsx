@@ -13,6 +13,7 @@ const Home = (props) => {
   // const stars = useSelector(state=>state.stars.collection);
   const display = useSelector(state=>state.display.collection);
   const [ disp, setDisp ] = useState([]);
+  const [ selectionType, setSelectionType ] = useState("featured");
 
   //Make the api call
   useEffect(()=>{
@@ -20,7 +21,6 @@ const Home = (props) => {
   },[dispatch])
 
   useEffect(()=>{
-
     display.forEach((item,index)=>{
         checkForImages(item);
     });
@@ -35,8 +35,8 @@ const Home = (props) => {
       className="home__container"
       data-test="component-home"
     >
-      <Navbar />
-      <Featured type="movie"/>
+      <Navbar setSelectionType={setSelectionType}/>
+      <Featured type={ selectionType }/>
       {
         disp?.map((item,index)=><List key={index} name={item} data={getObjs(display,item)} />)
       }

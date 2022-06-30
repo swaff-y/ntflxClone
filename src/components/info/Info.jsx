@@ -13,7 +13,6 @@ const Info = (props) => {
   let navigate = useNavigate();
   const params = useParams();
   const watch = useSelector(state=>state.watch.collection);
-  const videoElin = useRef(null);
   const { width, height } = useWindowDimensions();
 
   useEffect(()=>{
@@ -44,7 +43,7 @@ const Info = (props) => {
       }}
     >
         <div className="close" onClick={handleCloseClick}>x</div>
-        <video ref={videoElin} className="smallPlay" src={ BUCKET_URL + watch.url } autoPlay={true} loop/>
+        <video className="smallPlay" src={ BUCKET_URL + watch.url } autoPlay={true} loop/>
         <div className="infoItem">
           <div className="icons">
             <PlayArrow className='icon' onClick={()=>handleClick(watch)}/>
@@ -53,9 +52,9 @@ const Info = (props) => {
             <ThumbDownAltOutlined className='icon' />
           </div>
           <div className="itemInfoTop">
-            <span>{ Math.floor(videoElin?.current?.duration || 0) } sec</span>
-            <span className='limit'>+16</span>
-            <span>1999</span>
+            <span>{ watch.duration } sec</span>
+            <span className='limit'>+18</span>
+            <span>{ new Date(Date.parse(watch.createdAt)).getFullYear() }</span>
           </div>
           <div className="desc">
             { watch.desc }

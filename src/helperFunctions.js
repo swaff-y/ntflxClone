@@ -181,3 +181,15 @@ export const checkDescription = (name, obj, callback) => {
         callback(obj.bio);
     }
 }
+
+export const checkDuration = (duration, id, dur) =>{
+    console.log("checkr", duration, id, dur);
+    if(!duration){
+        putObj(id, { duration: dur })
+    }
+    return dur
+}
+
+export const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }

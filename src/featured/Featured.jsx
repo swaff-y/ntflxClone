@@ -1,7 +1,7 @@
 import { InfoOutlined, PlayArrow } from '@material-ui/icons';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getFeatured, splitCamelCase } from '../helperFunctions';
+import { capitalizeFirstLetter, getFeatured, splitCamelCase } from '../helperFunctions';
 import { useNavigate } from "react-router-dom";
 import "./featured.scss";
 
@@ -21,6 +21,8 @@ const Featured = ({type}) => {
     navigate(`/info/${featured._id}`, {replace: true, state: { url: featured.url } });
   }
 
+  console.log(type)
+
    return(
     <div
       className="featured"
@@ -31,15 +33,7 @@ const Featured = ({type}) => {
         &&
         (
           <div className="category">
-            <span>
-              {
-                type === "movie"
-                ?
-                "Movies"
-                :
-                "Series"
-              }
-            </span>
+            <span>{ capitalizeFirstLetter(type) }</span>
             <select name="genre" id="genre" defaultValue={"Genre"}>
               <option disabled>Genre</option>
               <option value="adventure">Adventure</option>
