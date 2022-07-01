@@ -1,8 +1,8 @@
 import { Add, PlayArrow, ThumbDownAltOutlined, ThumbUpAltOutlined } from '@material-ui/icons';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
-import { getObj } from '../../redux/apiCall';
+import { getObj, putObj } from '../../redux/apiCall';
 import "./info.scss";
 import useWindowDimensions from '../../hooks/useWindowDimensions';
 
@@ -14,6 +14,8 @@ const Info = (props) => {
   const params = useParams();
   const watch = useSelector(state=>state.watch.collection);
   const { width, height } = useWindowDimensions();
+  const [likeClicked, setLikeClicked ] = useState(false);
+  const [dislikeClicked, setDislikeClicked ] = useState(false);
 
   useEffect(()=>{
     getObj(dispatch, params.id);
@@ -29,6 +31,21 @@ const Info = (props) => {
 
   const handleCloseClick = (e) => {
     navigate(`/`, {replace: true });
+  }
+
+  const handleLikeClick = (e) => {
+    let likeCount = watch.likeCount;
+    likeCount++;
+    putObj(params.id, { likeCount });
+    setLikeClicked(true);
+    setDislikeClicked(false);
+  }
+  const handleDislikeClick = (e) => {
+    let likeCount = watch.likeCount;
+    likeCount--;
+    putObj(params.id, { likeCount });
+    setDislikeClicked(true);
+    setLikeClicked(false);
   }
 
    return(
@@ -48,8 +65,38 @@ const Info = (props) => {
           <div className="icons">
             <PlayArrow className='icon' onClick={()=>handleClick(watch)}/>
             <Add className='icon' />
-            <ThumbUpAltOutlined className='icon' />
-            <ThumbDownAltOutlined className='icon' />
+            {
+                    likeClicked
+                    ?
+                    <ThumbUpAltOutlined 
+                      className='icon'
+                      style={{
+                        color: 'gray',
+                        borderColor: "gray"
+                      }}
+                    />
+                    :
+                    <ThumbUpAltOutlined 
+                      onClick={handleLikeClick} 
+                      className='icon'
+                    />
+            }
+            {
+                    dislikeClicked
+                    ?
+                    <ThumbDownAltOutlined 
+                      className='icon' 
+                      style={{
+                        color: 'gray',
+                        borderColor: "gray"
+                      }}
+                    />
+                    :
+                    <ThumbDownAltOutlined 
+                      onClick={handleDislikeClick} 
+                      className='icon' 
+                    />
+            }
           </div>
           <div className="itemInfoTop">
             <span>{ watch.duration } sec</span>

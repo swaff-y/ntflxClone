@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { checkDescription, checkDuration } from '../../helperFunctions';
 import useWindowDimensions from '../../hooks/useWindowDimensions';
+import { putObj } from '../../redux/apiCall';
 import "./listItem.scss";
 
 const BUCKET_URL = process.env.REACT_APP_BUCKET_URL;
@@ -15,6 +16,8 @@ const ListItem = ({ index, data, url }) => {
   const trailer = BUCKET_URL + url;
   let navigate = useNavigate();
   const videoEl = useRef(null);
+  const [likeClicked, setLikeClicked ] = useState(false);
+  const [dislikeClicked, setDislikeClicked ] = useState(false);
 
   const handleClick = (data) => {
     navigate(`/watch/${data._id}`, {replace: true, state: { url } });
@@ -39,6 +42,23 @@ const ListItem = ({ index, data, url }) => {
       !data.duration && checkDuration(data.duration,data._id, Math.floor(videoEl?.current?.duration || 0) )
     }
   }
+
+  const handleLikeClick = (e) => {
+    let likeCount = data.likeCount;
+    likeCount++;
+    putObj(data.id, { likeCount });
+    setLikeClicked(true);
+    setDislikeClicked(false);
+  }
+  const handleDislikeClick = (e) => {
+    let likeCount = data.likeCount;
+    likeCount--;
+    putObj(data.id, { likeCount });
+    setDislikeClicked(true);
+    setLikeClicked(false);
+  }
+
+  console.log("like", likeClicked, dislikeClicked);
 
    return(
     <div
@@ -75,8 +95,40 @@ const ListItem = ({ index, data, url }) => {
                 <div className="icons">
                   <PlayArrow className='icon' onClick={()=>handleClick(data)}/>
                   <Add className='icon' />
-                  <ThumbUpAltOutlined className='icon' />
-                  <ThumbDownAltOutlined className='icon' />
+                  {
+                    likeClicked
+                    ?
+                    <ThumbUpAltOutlined 
+                      className='icon'
+                      style={{
+                        color: 'gray',
+                        borderColor: "gray"
+                      }}
+                    />
+                    :
+                    <ThumbUpAltOutlined 
+                      onClick={handleLikeClick} 
+                      className='icon'
+                    />
+                  }
+                  {
+                    dislikeClicked
+                    ?
+                    <ThumbDownAltOutlined 
+                      className='icon' 
+                      style={{
+                        color: 'gray',
+                        borderColor: "gray"
+                      }}
+                    />
+                    :
+                    <ThumbDownAltOutlined 
+                      onClick={handleDislikeClick} 
+                      className='icon'
+                    />
+                  }
+
+
                 </div>
                 <div className="itemInfoTop">
                   <span>{ data.duration ? data.duration : checkDuration(data.duration,data._id, Math.floor(videoEl?.current?.duration || 0) ) } sec</span>
