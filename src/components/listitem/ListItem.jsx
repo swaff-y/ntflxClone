@@ -40,8 +40,6 @@ const ListItem = ({ index, data, url }) => {
     }
   }
 
-  console.log("The data", data)
-
    return(
     <div
       className="listItem"

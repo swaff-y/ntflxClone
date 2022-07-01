@@ -43,6 +43,7 @@ export const putObj = async (id,data) => {
         console.log("%cPut ERROR","color:red;font-size:24px;",err)
     }
 }
+
 export const getObj = async (dispatch, id) => {
     dispatch(watchStart());
     try {
