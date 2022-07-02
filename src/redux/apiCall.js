@@ -5,6 +5,11 @@ import {
     getStarsSuccess
 } from "./starsReducer";
 import { 
+    moviesFailure,
+    moviesStart,
+    getMoviesSuccess
+} from "./moviesReducer";
+import { 
     displayFailure,
     displayStart,
     getDisplaySuccess
@@ -35,6 +40,19 @@ export const getStars = async (dispatch) => {
         console.log("%cERROR","color:red;font-size:24px;",err)
     }
 }
+
+export const getMovies = async (dispatch) => {
+    dispatch(moviesStart());
+    try {
+        const res = await request.get("/config/movies");
+        dispatch(getMoviesSuccess(res.data));
+        console.log("%cSuccess","color:green;font-size:24px;",res.data)
+    } catch (err) {
+        dispatch(moviesFailure());
+        console.log("%cERROR","color:red;font-size:24px;",err)
+    }
+}
+
 export const putObj = async (id,data) => {
     try {
         const res = await request.put("/config/stars/display/" + id, data);

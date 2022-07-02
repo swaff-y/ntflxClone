@@ -21,8 +21,6 @@ const Featured = ({type}) => {
     navigate(`/info/${featured._id}`, {replace: true, state: { url: featured.url } });
   }
 
-  console.log(type)
-
    return(
     <div
       className="featured"
@@ -34,11 +32,14 @@ const Featured = ({type}) => {
         (
           <div className="category">
             <span>{ capitalizeFirstLetter(type) }</span>
-            <select name="genre" id="genre" defaultValue={"Genre"}>
-              <option disabled>Genre</option>
-              <option value="adventure">Adventure</option>
-              <option value="comedy">Comedy</option>
-              <option value="crime">Crime</option>
+            <select name="genre" id="genre" defaultValue={"Featured"}>
+              <option disabled>Featured</option>
+              <option value="featured">Featured</option>
+              <option value="movies">Movies</option>
+              <option value="series">Series</option>
+              <option value="new">New</option>
+              <option value="popular">Popular</option>
+              <option value="list">My List</option>
             </select>
           </div>
         )

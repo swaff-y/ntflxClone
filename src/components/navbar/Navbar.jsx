@@ -22,9 +22,10 @@ const Navbar = ({ setSelectionType }) => {
     >
         <div className='container'>
           <div className='left'>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" />
+            <img onClick={handleSelection} action="featured" src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" />
             <span onClick={handleSelection} action="stars" >Stars</span>
             <span onClick={handleSelection} action="movies" >Movies</span>
+            <span onClick={handleSelection} action="series" >Series</span>
             <span onClick={handleSelection} action="new" >New</span>
             <span onClick={handleSelection} action="popular" >Popular</span>
             <span onClick={handleSelection} action="favorite" >My List</span>

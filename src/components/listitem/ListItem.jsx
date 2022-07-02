@@ -58,8 +58,6 @@ const ListItem = ({ index, data, url }) => {
     setLikeClicked(false);
   }
 
-  console.log("like", likeClicked, dislikeClicked);
-
    return(
     <div
       className="listItem"

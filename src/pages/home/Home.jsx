@@ -4,20 +4,24 @@ import Navbar from '../../components/navbar/Navbar';
 import Featured from '../../featured/Featured';
 import "./home.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { getStars, getDisplay } from '../../redux/apiCall';
+import { getStars, getDisplay, getMovies } from '../../redux/apiCall';
 import { uniqueArray, randomArray, getObjs, checkForImages } from '../../helperFunctions';
+// import { log } from '../../../../backEnd/logger';
 
 
 const Home = (props) => {
   const dispatch = useDispatch();
-  // const stars = useSelector(state=>state.stars.collection);
+  const movies = useSelector(state=>state.movies.collection);
+  const stars = useSelector(state=>state.stars.collection);
   const display = useSelector(state=>state.display.collection);
   const [ disp, setDisp ] = useState([]);
   const [ selectionType, setSelectionType ] = useState("featured");
 
-  //Make the api call
+  //Make the api calls
   useEffect(()=>{
-    getDisplay(dispatch)
+    getDisplay(dispatch);
+    getStars(dispatch);
+    getMovies(dispatch);
   },[dispatch])
 
   useEffect(()=>{
@@ -30,6 +34,18 @@ const Home = (props) => {
     setDisp(randomArr?.sort());
   },[display])
 
+  useEffect(()=>{
+    movies.forEach((item,index)=>{
+        checkForImages(item);
+    });
+  },[movies])
+
+  useEffect(()=>{
+    stars.forEach((item,index)=>{
+        checkForImages(item);
+    });
+  },[stars])
+
   return(
     <div
       className="home__container"
@@ -38,6 +54,18 @@ const Home = (props) => {
       <Navbar setSelectionType={setSelectionType}/>
       <Featured type={ selectionType }/>
       {
+        selectionType === "featured"
+        ?
+        disp?.map((item,index)=><List key={index} name={item} data={getObjs(display,item)} />)
+        :
+        selectionType === "stars"
+        ?
+        uniqueArray(stars)?.map((item,index)=><List key={index} name={item} data={getObjs(stars,item)} />)
+        :
+        selectionType === "movies"
+        ?
+        uniqueArray(movies)?.map((item,index)=><List key={index} name={item} data={getObjs(movies,item)} />)
+        :
         disp?.map((item,index)=><List key={index} name={item} data={getObjs(display,item)} />)
       }
     </div>

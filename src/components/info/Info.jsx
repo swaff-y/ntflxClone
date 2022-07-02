@@ -99,7 +99,7 @@ const Info = (props) => {
             }
           </div>
           <div className="itemInfoTop">
-            <span>{ watch.duration } sec</span>
+            <span>{ watch.duration?.toString() } sec</span>
             <span className='limit'>+18</span>
             <span>{ new Date(Date.parse(watch.createdAt)).getFullYear() }</span>
           </div>
