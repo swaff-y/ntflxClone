@@ -4,7 +4,7 @@ import Navbar from '../../components/navbar/Navbar';
 import Featured from '../../featured/Featured';
 import "./home.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { getStars, getDisplay, getMovies, getSeries } from '../../redux/apiCall';
+import { getStars, getDisplay, getMovies, getSeries, getNew, getPopular } from '../../redux/apiCall';
 import { uniqueArray, randomArray, getObjs, checkForImages } from '../../helperFunctions';
 // import { log } from '../../../../backEnd/logger';
 
@@ -15,6 +15,8 @@ const Home = (props) => {
   const stars = useSelector(state=>state.stars.collection);
   const series = useSelector(state=>state.series.collection);
   const display = useSelector(state=>state.display.collection);
+  const newVids = useSelector(state=>state.newVids.collection);
+  const popular = useSelector(state=>state.popular.collection);
   const [ disp, setDisp ] = useState([]);
   const [ selectionType, setSelectionType ] = useState("featured");
 
@@ -24,10 +26,12 @@ const Home = (props) => {
     getStars(dispatch);
     getMovies(dispatch);
     getSeries(dispatch);
+    getNew(dispatch);
+    getPopular(dispatch);
   },[dispatch])
 
   useEffect(()=>{
-    display.forEach((item,index)=>{
+    display.forEach((item)=>{
         checkForImages(item);
     });
 
@@ -37,19 +41,31 @@ const Home = (props) => {
   },[display])
 
   useEffect(()=>{
-    movies.forEach((item,index)=>{
+    newVids.forEach((item)=>{
+        checkForImages(item);
+    });
+  },[newVids])
+
+  useEffect(()=>{
+    popular.forEach((item)=>{
+        checkForImages(item);
+    });
+  },[popular])
+
+  useEffect(()=>{
+    movies.forEach((item)=>{
         checkForImages(item);
     });
   },[movies])
 
   useEffect(()=>{
-    series.forEach((item,index)=>{
+    series.forEach((item)=>{
         checkForImages(item);
     });
   },[series])
 
   useEffect(()=>{
-    stars.forEach((item,index)=>{
+    stars.forEach((item)=>{
         checkForImages(item);
     });
   },[stars])
@@ -77,6 +93,14 @@ const Home = (props) => {
         selectionType === "series"
         ?
         uniqueArray(series)?.map((item,index)=><List key={index} name={item} data={getObjs(series,item)} />)
+        :
+        selectionType === "new"
+        ?
+        uniqueArray(newVids)?.map((item,index)=><List key={index} name={item} data={getObjs(newVids,item)} />)
+        :
+        selectionType === "popular"
+        ?
+        uniqueArray(popular)?.map((item,index)=><List key={index} name={item} data={getObjs(popular,item)} />)
         :
         disp?.map((item,index)=><List key={index} name={item} data={getObjs(display,item)} />)
       }

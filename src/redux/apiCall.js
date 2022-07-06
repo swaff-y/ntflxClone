@@ -19,6 +19,16 @@ import {
     seriesStart,
     getSeriesSuccess
 } from "./seriesReducer";
+import { 
+    newFailure,
+    newStart,
+    getNewSuccess
+} from "./newReducer";
+import { 
+    popularFailure,
+    popularStart,
+    getPopularSuccess
+} from "./popularReducer";
 import { getWatchSuccess, watchFailure, watchStart } from "./watchReducer";
 import { getBioFromHTML, splitCamelCase } from "../helperFunctions";
 
@@ -27,7 +37,7 @@ export const getDisplay = async (dispatch) => {
     try {
         const res = await request.get("/config/stars/display");
         dispatch(getDisplaySuccess(res.data));
-        console.log("%cDisplay Success","color:green;font-size:24px;",res.data)
+        console.log("%cSuccess display","color:green;font-size:24px;",res.data)
     } catch (err) {
         dispatch(displayFailure());
         console.log("%cDisplay ERROR","color:red;font-size:24px;",err)
@@ -39,7 +49,7 @@ export const getStars = async (dispatch) => {
     try {
         const res = await request.get("/config/stars");
         dispatch(getStarsSuccess(res.data));
-        console.log("%cSuccess","color:green;font-size:24px;",res.data)
+        console.log("%cSuccess stars","color:green;font-size:24px;",res.data)
     } catch (err) {
         dispatch(starsFailure());
         console.log("%cERROR","color:red;font-size:24px;",err)
@@ -51,7 +61,7 @@ export const getMovies = async (dispatch) => {
     try {
         const res = await request.get("/config/movies");
         dispatch(getMoviesSuccess(res.data));
-        console.log("%cSuccess","color:green;font-size:24px;",res.data)
+        console.log("%cSuccess movies","color:green;font-size:24px;",res.data)
     } catch (err) {
         dispatch(moviesFailure());
         console.log("%cERROR","color:red;font-size:24px;",err)
@@ -62,9 +72,31 @@ export const getSeries = async (dispatch) => {
     try {
         const res = await request.get("/config/series");
         dispatch(getSeriesSuccess(res.data));
-        console.log("%cSuccess","color:green;font-size:24px;",res.data)
+        console.log("%cSuccess series","color:green;font-size:24px;",res.data)
     } catch (err) {
         dispatch(seriesFailure());
+        console.log("%cERROR","color:red;font-size:24px;",err)
+    }
+}
+export const getNew = async (dispatch) => {
+    dispatch(newStart());
+    try {
+        const res = await request.get("/config/new");
+        dispatch(getNewSuccess(res.data));
+        console.log("%cSuccess new","color:green;font-size:24px;",res.data)
+    } catch (err) {
+        dispatch(newFailure());
+        console.log("%cERROR","color:red;font-size:24px;",err)
+    }
+}
+export const getPopular = async (dispatch) => {
+    dispatch(popularStart());
+    try {
+        const res = await request.get("/config/popular");
+        dispatch(getPopularSuccess(res.data));
+        console.log("%cSuccess popular","color:green;font-size:24px;",res.data)
+    } catch (err) {
+        dispatch(popularFailure());
         console.log("%cERROR","color:red;font-size:24px;",err)
     }
 }
