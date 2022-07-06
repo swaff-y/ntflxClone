@@ -5,7 +5,7 @@ import { capitalizeFirstLetter, getFeatured, splitCamelCase } from '../helperFun
 import { useNavigate } from "react-router-dom";
 import "./featured.scss";
 
-const Featured = ({type}) => {
+const Featured = ({type, setType}) => {
   const display = useSelector(state=>state.display.collection);
   const [ featured, setFeatured ] = useState({});
   let navigate = useNavigate();
@@ -21,6 +21,10 @@ const Featured = ({type}) => {
     navigate(`/info/${featured._id}`, {replace: true, state: { url: featured.url } });
   }
 
+  const handleChange = (e) => {
+      setType(e.target.value);
+  }
+
    return(
     <div
       className="featured"
@@ -32,9 +36,10 @@ const Featured = ({type}) => {
         (
           <div className="category">
             <span>{ capitalizeFirstLetter(type) }</span>
-            <select name="genre" id="genre" defaultValue={"Featured"}>
+            <select name="genre" id="genre" defaultValue={"Featured"} onChange={handleChange}>
               <option disabled>Featured</option>
               <option value="featured">Featured</option>
+              <option value="stars">Stars</option>
               <option value="movies">Movies</option>
               <option value="series">Series</option>
               <option value="new">New</option>

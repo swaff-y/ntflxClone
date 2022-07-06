@@ -4,7 +4,7 @@ import Navbar from '../../components/navbar/Navbar';
 import Featured from '../../featured/Featured';
 import "./home.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { getStars, getDisplay, getMovies } from '../../redux/apiCall';
+import { getStars, getDisplay, getMovies, getSeries } from '../../redux/apiCall';
 import { uniqueArray, randomArray, getObjs, checkForImages } from '../../helperFunctions';
 // import { log } from '../../../../backEnd/logger';
 
@@ -13,6 +13,7 @@ const Home = (props) => {
   const dispatch = useDispatch();
   const movies = useSelector(state=>state.movies.collection);
   const stars = useSelector(state=>state.stars.collection);
+  const series = useSelector(state=>state.series.collection);
   const display = useSelector(state=>state.display.collection);
   const [ disp, setDisp ] = useState([]);
   const [ selectionType, setSelectionType ] = useState("featured");
@@ -22,6 +23,7 @@ const Home = (props) => {
     getDisplay(dispatch);
     getStars(dispatch);
     getMovies(dispatch);
+    getSeries(dispatch);
   },[dispatch])
 
   useEffect(()=>{
@@ -41,6 +43,12 @@ const Home = (props) => {
   },[movies])
 
   useEffect(()=>{
+    series.forEach((item,index)=>{
+        checkForImages(item);
+    });
+  },[series])
+
+  useEffect(()=>{
     stars.forEach((item,index)=>{
         checkForImages(item);
     });
@@ -52,7 +60,7 @@ const Home = (props) => {
       data-test="component-home"
     >
       <Navbar setSelectionType={setSelectionType}/>
-      <Featured type={ selectionType }/>
+      <Featured type={ selectionType } setType={ setSelectionType }/>
       {
         selectionType === "featured"
         ?
@@ -65,6 +73,10 @@ const Home = (props) => {
         selectionType === "movies"
         ?
         uniqueArray(movies)?.map((item,index)=><List key={index} name={item} data={getObjs(movies,item)} />)
+        :
+        selectionType === "series"
+        ?
+        uniqueArray(series)?.map((item,index)=><List key={index} name={item} data={getObjs(series,item)} />)
         :
         disp?.map((item,index)=><List key={index} name={item} data={getObjs(display,item)} />)
       }

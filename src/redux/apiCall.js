@@ -14,6 +14,11 @@ import {
     displayStart,
     getDisplaySuccess
 } from "./displayReducer";
+import { 
+    seriesFailure,
+    seriesStart,
+    getSeriesSuccess
+} from "./seriesReducer";
 import { getWatchSuccess, watchFailure, watchStart } from "./watchReducer";
 import { getBioFromHTML, splitCamelCase } from "../helperFunctions";
 
@@ -49,6 +54,17 @@ export const getMovies = async (dispatch) => {
         console.log("%cSuccess","color:green;font-size:24px;",res.data)
     } catch (err) {
         dispatch(moviesFailure());
+        console.log("%cERROR","color:red;font-size:24px;",err)
+    }
+}
+export const getSeries = async (dispatch) => {
+    dispatch(seriesStart());
+    try {
+        const res = await request.get("/config/series");
+        dispatch(getSeriesSuccess(res.data));
+        console.log("%cSuccess","color:green;font-size:24px;",res.data)
+    } catch (err) {
+        dispatch(seriesFailure());
         console.log("%cERROR","color:red;font-size:24px;",err)
     }
 }
