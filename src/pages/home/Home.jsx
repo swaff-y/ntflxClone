@@ -17,7 +17,7 @@ const Home = (props) => {
   const display = useSelector(state=>state.display.collection);
   const newVids = useSelector(state=>state.newVids.collection);
   const popular = useSelector(state=>state.popular.collection);
-  const [ disp, setDisp ] = useState([]);
+  // const [ disp, setDisp ] = useState([]);
   const [ selectionType, setSelectionType ] = useState("featured");
 
   //Make the api calls
@@ -35,9 +35,10 @@ const Home = (props) => {
         checkForImages(item);
     });
 
-    const uniqueArr = uniqueArray(display || []);
-    const randomArr = randomArray(uniqueArr, 8);
-    setDisp(randomArr?.sort());
+    // const uniqueArr = uniqueArray(display || []);
+    // const randomArr = randomArray(uniqueArr, 8);
+    // setDisp(randomArr?.sort());
+    // setDisp(display?.sort());
   },[display])
 
   useEffect(()=>{
@@ -80,7 +81,7 @@ const Home = (props) => {
       {
         selectionType === "featured"
         ?
-        disp?.map((item,index)=><List key={index} name={item} data={getObjs(display,item)} />)
+        uniqueArray(display)?.map((item,index)=><List key={index} name={item} data={getObjs(display,item)} />)
         :
         selectionType === "stars"
         ?
@@ -102,7 +103,7 @@ const Home = (props) => {
         ?
         uniqueArray(popular)?.map((item,index)=><List key={index} name={item} data={getObjs(popular,item)} />)
         :
-        disp?.map((item,index)=><List key={index} name={item} data={getObjs(display,item)} />)
+        uniqueArray(display)?.map((item,index)=><List key={index} name={item} data={getObjs(display,item)} />)
       }
     </div>
    )
