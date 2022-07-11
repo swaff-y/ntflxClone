@@ -29,6 +29,11 @@ import {
     popularStart,
     getPopularSuccess
 } from "./popularReducer";
+import { 
+    searchFailure,
+    searchStart,
+    getSearchSuccess
+} from "./searchReducer";
 import { getWatchSuccess, watchFailure, watchStart } from "./watchReducer";
 import { getBioFromHTML, splitCamelCase } from "../helperFunctions";
 
@@ -97,6 +102,17 @@ export const getPopular = async (dispatch) => {
         console.log("%cSuccess popular","color:green;font-size:24px;",res.data)
     } catch (err) {
         dispatch(popularFailure());
+        console.log("%cERROR","color:red;font-size:24px;",err)
+    }
+}
+export const getSearch = async (dispatch, query) => {
+    dispatch(searchStart());
+    try {
+        const res = await request.get("/config/search?fullName=" + query);
+        dispatch(getSearchSuccess(res.data));
+        console.log("%cSuccess search","color:green;font-size:24px;",res.data)
+    } catch (err) {
+        dispatch(searchFailure());
         console.log("%cERROR","color:red;font-size:24px;",err)
     }
 }

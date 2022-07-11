@@ -4,8 +4,8 @@ import Navbar from '../../components/navbar/Navbar';
 import Featured from '../../featured/Featured';
 import "./home.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { getStars, getDisplay, getMovies, getSeries, getNew, getPopular } from '../../redux/apiCall';
-import { uniqueArray, randomArray, getObjs, checkForImages } from '../../helperFunctions';
+import { getStars, getDisplay, getMovies, getSeries, getNew, getPopular, getSearch } from '../../redux/apiCall';
+import { uniqueArray, getObjs, checkForImages } from '../../helperFunctions';
 // import { log } from '../../../../backEnd/logger';
 
 
@@ -17,8 +17,10 @@ const Home = (props) => {
   const display = useSelector(state=>state.display.collection);
   const newVids = useSelector(state=>state.newVids.collection);
   const popular = useSelector(state=>state.popular.collection);
+  const searched = useSelector(state=>state.search.collection);
   // const [ disp, setDisp ] = useState([]);
   const [ selectionType, setSelectionType ] = useState("featured");
+  const [ searchTerm, setSearchTerm ] = useState("");
 
   //Make the api calls
   useEffect(()=>{
@@ -71,12 +73,23 @@ const Home = (props) => {
     });
   },[stars])
 
+  const keyup = (e) => {
+    if(e.key === "Enter"){
+      getSearch(dispatch, searchTerm);
+      setSelectionType("search");
+      console.log("%cSubmit", "font-size:20px; color:orange; ");
+    }
+  }
+  const handleChange = (e) => {
+    setSearchTerm(e.target.value);
+  }
+
   return(
     <div
       className="home__container"
       data-test="component-home"
     >
-      <Navbar setSelectionType={setSelectionType}/>
+      <Navbar setSelectionType={setSelectionType} keyup={keyup} handleChange={handleChange}/>
       <Featured type={ selectionType } setType={ setSelectionType }/>
       {
         selectionType === "featured"
@@ -102,6 +115,10 @@ const Home = (props) => {
         selectionType === "popular"
         ?
         uniqueArray(popular)?.map((item,index)=><List key={index} name={item} data={getObjs(popular,item)} />)
+        :
+        selectionType === "search"
+        ?
+        uniqueArray(searched)?.map((item,index)=><List key={index} name={item} data={getObjs(searched,item)} />)
         :
         uniqueArray(display)?.map((item,index)=><List key={index} name={item} data={getObjs(display,item)} />)
       }

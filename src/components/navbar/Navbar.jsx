@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import "./navbar.scss";
-import { ArrowDropDown, Notifications, Search } from '@material-ui/icons';
+import { ArrowDropDown, Search } from '@material-ui/icons';
 
-const Navbar = ({ setSelectionType }) => {
+const Navbar = ({ setSelectionType, keyup, handleChange }) => {
   const [ isScrolled, setIsScrolled ] = useState(false);
+  const [ isSelected, setIsSelected ] = useState(false);
 
   window.onscroll = () => {
     setIsScrolled(!(window.pageYOffset === 0));
@@ -13,6 +14,17 @@ const Navbar = ({ setSelectionType }) => {
   const handleSelection = (e) => {
     const value = e.target?.attributes?.action?.nodeValue || "";
     setSelectionType(value);
+  }
+
+  const handleClick = (e) => {
+    if(!isSelected){
+      setIsSelected(true);
+    }
+  }
+  const handleBlur = (e) => {
+    if(isSelected){
+      setIsSelected(false);
+    }
   }
 
    return(
@@ -31,8 +43,14 @@ const Navbar = ({ setSelectionType }) => {
             <span onClick={handleSelection} action="favorite" >My List</span>
           </div>
           <div className='right'>
-            <Search className="icon"/>
-            <Notifications className="icon" />
+            {
+              !isSelected
+              ?
+              <Search className="icon" onClick={handleClick}/>
+              :
+              <input type="text" className='search' onChange={handleChange} onKeyUp={keyup} onBlur={handleBlur}/>
+            }
+            
             <img src="https://avatars.githubusercontent.com/u/72368535?s=400&u=20eeecfe9dd1f5a481917319985b2de6d695a80c&v=4" />
             <div className="profile">
               <ArrowDropDown className="icon" />
