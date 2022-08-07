@@ -32,6 +32,12 @@
         justify-content: center;
         color: white;
 
+        .errorMsg{
+            color:red;
+            font-weight: 300;
+            font-size: 15px;
+        }
+
         form{
             width: 300px;
             height: 300px;

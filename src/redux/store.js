@@ -7,6 +7,7 @@ import seriesReducer from "./seriesReducer";
 import newReducer from "./newReducer";
 import popularReducer from "./popularReducer";
 import searchReducer from "./searchReducer";
+import userReducer from "./userReducer";
 
 const allReducers = combineReducers({
     stars: starsReducer,
@@ -16,7 +17,8 @@ const allReducers = combineReducers({
     watch: watchReducer,
     newVids: newReducer,
     popular: popularReducer,
-    search: searchReducer
+    search: searchReducer,
+    user: userReducer
 })
 
 export default allReducers;

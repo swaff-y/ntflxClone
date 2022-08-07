@@ -34,8 +34,22 @@ import {
     searchStart,
     getSearchSuccess
 } from "./searchReducer";
+import { 
+    loginFailure,
+    loginStart,
+    loginSuccess
+} from "./userReducer";
 import { getWatchSuccess, watchFailure, watchStart } from "./watchReducer";
-import { getBioFromHTML, splitCamelCase } from "../helperFunctions";
+
+export const login = async (dispatch, user) => {
+    dispatch(loginStart());
+    try {
+        const res = await request.post("/auth/login", user);
+        dispatch(loginSuccess(res.data));
+    } catch (err) {
+        dispatch(loginFailure())
+    }
+}
 
 export const getDisplay = async (dispatch) => {
     dispatch(displayStart());

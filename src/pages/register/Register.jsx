@@ -1,11 +1,13 @@
 import React, { useRef, useState } from 'react';
 import "./register.scss";
+import { useNavigate } from "react-router-dom";
 
 const Register = (props) => {
   const [ email, setEmail ] = useState("");
   const [ password, setPassword ] = useState("");
   const emailRef = useRef();
   const passwordRef = useRef();
+  let navigate = useNavigate();
 
   const handleStart = (e) => {
     setEmail(emailRef.current.value); 
@@ -13,6 +15,11 @@ const Register = (props) => {
 
   const handleFinish = (e) => {
     setPassword(passwordRef.current.value); 
+  }
+
+  const handleSigninClick = (e) => {
+    console.log("Click");
+    navigate(`/login`, {replace: true });
   }
    return(
     <div
@@ -22,7 +29,12 @@ const Register = (props) => {
         <div className="top">
           <div className="wrapper">
             <img className="logo" src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="" />
-            <button className="loginButton">Sign In</button>
+            <button 
+              className="loginButton" 
+              onClick={handleSigninClick}
+              style={{cursor:"pointer"}}>
+                Sign In
+            </button>
           </div>
         </div>
         <div className="container">

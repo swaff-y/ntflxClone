@@ -6,6 +6,7 @@ import "./home.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { getStars, getDisplay, getMovies, getSeries, getNew, getPopular, getSearch } from '../../redux/apiCall';
 import { uniqueArray, getObjs, checkForImages } from '../../helperFunctions';
+import { useNavigate } from 'react-router';
 // import { log } from '../../../../backEnd/logger';
 
 
@@ -21,6 +22,13 @@ const Home = (props) => {
   // const [ disp, setDisp ] = useState([]);
   const [ selectionType, setSelectionType ] = useState("featured");
   const [ searchTerm, setSearchTerm ] = useState("");
+  let navigate = useNavigate();
+
+  useEffect(()=>{
+    if(!localStorage.ntflx_user){
+      navigate(`/login`, {replace: true });
+    }
+  },[])
 
   //Make the api calls
   useEffect(()=>{
